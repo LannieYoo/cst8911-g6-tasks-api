@@ -1,0 +1,23 @@
+[
+  {
+    "id": "a1b2c3d4-0000-4000-8000-000000000001",
+    "title": "Create the resource group",
+    "status": "done",
+    "owner": "Lannie",
+    "createdAt": "2026-10-15T14:00:00+00:00"
+  },
+  {
+    "id": "a1b2c3d4-0000-4000-8000-000000000002",
+    "title": "Write the GET list function",
+    "status": "doing",
+    "owner": "Member 1",
+    "createdAt": "2026-10-15T14:05:00+00:00"
+  },
+  {
+    "id": "a1b2c3d4-0000-4000-8000-000000000003",
+    "title": "Test the API from the VM",
+    "status": "todo",
+    "owner": "Lannie",
+    "createdAt": "2026-10-15T14:10:00+00:00"
+  }
+]
