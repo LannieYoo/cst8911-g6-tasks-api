@@ -44,7 +44,7 @@ All routes start with `/api`. Auth level is `function`, so every request needs t
 | Method | Route | Owner | Success | Error |
 |---|---|---|---|---|
 | POST | `/api/tasks` | Lannie | 201 + the new task | 400 if `title` or `owner` is missing |
-| GET | `/api/tasks` | Member 1 | 200 + array (optional `?status=`) | - |
+| GET | `/api/tasks` | Peng Wang | 200 + array (optional `?status=`) | - |
 | GET | `/api/tasks/{id}` | Member 2 | 200 + the task | 404 |
 | PUT | `/api/tasks/{id}` | Member 3 | 200 + the updated task | 404, 400 if `status` is not valid |
 | DELETE | `/api/tasks/{id}` | Member 4 | 204 (no body) | 404 |
@@ -55,6 +55,7 @@ All routes start with `/api`. Auth level is `function`, so every request needs t
 function_app.py          registers all blueprints
 shared/cosmos.py         returns the Cosmos DB container (Managed Identity)
 functions/create_task.py POST /api/tasks
+functions/get_tasks.py   GET /api/tasks
 functions/               one file per function, one function per member
 tests/run_tests.sh       curl tests (key comes from an environment variable)
 data/tasks-sample.json   sample data
@@ -86,7 +87,7 @@ Please do not put any key, connection string or subscription ID in the code or i
 | Name | Function |
 |---|---|
 | Hye Ran Yoo | POST, Azure setup, Key Vault, VM, tests |
-| Member 1 | GET list, README |
+| Peng Wang | GET list, README |
 | Member 2 | GET one |
 | Member 3 | PUT, report |
 | Member 4 | DELETE, final check and submission |

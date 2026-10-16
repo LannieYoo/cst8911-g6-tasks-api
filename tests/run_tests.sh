@@ -29,4 +29,19 @@ curl -s -i -X POST "$BASE/api/tasks" \
 echo
 echo
 
-# GET list, GET one, PUT and DELETE are added here when those functions are merged.
+echo "=== GET /api/tasks (expect 200 + array) ==="
+curl -s -i "$BASE/api/tasks"   -H "x-functions-key: $KEY"
+echo
+echo
+
+echo "=== GET /api/tasks?status=todo (expect 200, only todo tasks) ==="
+curl -s -i "$BASE/api/tasks?status=todo"   -H "x-functions-key: $KEY"
+echo
+echo
+
+echo "=== GET /api/tasks without key (expect 401) ==="
+curl -s -i "$BASE/api/tasks"
+echo
+echo
+
+# GET one, PUT and DELETE are added here when those functions are merged.
