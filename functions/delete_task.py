@@ -1,5 +1,6 @@
 import json
 import logging
+from http import HTTPStatus
 
 import azure.functions as func
 from azure.cosmos.exceptions import CosmosResourceNotFoundError
@@ -7,24 +8,31 @@ from azure.cosmos.exceptions import CosmosResourceNotFoundError
 from shared.cosmos import get_container
 
 bp = func.Blueprint()
+logger = logging.getLogger(__name__)
 
 
 @bp.route(route="tasks/{id}", methods=["DELETE"], auth_level=func.AuthLevel.FUNCTION)
 def delete_task(req: func.HttpRequest) -> func.HttpResponse:
-    """DELETE /api/tasks/{id} - delete one task."""
+    """Remove a task, which returns 204 on success or 404 if it does not exist."""
     task_id = req.route_params.get("id")
-    logging.info("DELETE /api/tasks/%s", task_id)
-
-    container = get_container()
-    try:
-        # Partition key is /id, so the partition key value is the id itself
-        container.delete_item(item=task_id, partition_key=task_id)
-    except CosmosResourceNotFoundError:
+    if not task_id:
         return func.HttpResponse(
-            json.dumps({"error": "Task not found"}),
-            status_code=404,
+            body=json.dumps({"error": "Task id is required"}),
+            status_code=HTTPStatus.BAD_REQUEST,
             mimetype="application/json",
         )
 
-    logging.info("Deleted task %s", task_id)
-    return func.HttpResponse(status_code=204)
+    container = get_container()
+    try:
+        # The container uses /id as its partition key. No preliminary read is needed.
+        container.delete_item(item=task_id, partition_key=task_id)
+    except CosmosResourceNotFoundError:
+        logger.info("Task %s was not found for deletion", task_id)
+        return func.HttpResponse(
+            body=json.dumps({"error": "Task not found"}),
+            status_code=HTTPStatus.NOT_FOUND,
+            mimetype="application/json",
+        )
+
+    logger.info("Task %s deleted", task_id)
+    return func.HttpResponse(status_code=HTTPStatus.NO_CONTENT)
