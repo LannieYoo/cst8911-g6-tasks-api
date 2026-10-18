@@ -8,23 +8,11 @@ and tests the API with curl.
 
 ## Architecture
 
-```
-Laptop --SSH (my IP only)--> VM cst8911-g6-vm (Ubuntu 24.04, B2ats_v2)
-                                |  managed identity
-                                |  1. read secret func-key-vm
-                                v
-                         Key Vault cst8911-g6-kv
-                                |
-                                |  2. curl + x-functions-key
-                                v
-             Function App cst8911-g6-api (Flex Consumption, Python 3.11)
-                                |  3. managed identity (no key)
-                                v
-             Cosmos DB cst8911-g6-cosmos (NoSQL, serverless) - appdb / tasks
+![Architecture](docs/architecture.png)
 
-GitHub (main) --GitHub Actions--> Function App
-Function App --logs--> Application Insights --> Log Analytics workspace
-```
+Numbers 1 to 5 are the main flow: SSH to the VM, read the key from Key Vault, call the API,
+read and write Cosmos DB, and deploy from GitHub. The tables under the picture show which
+identity has which role, and where each part was done.
 
 All resources are in one resource group, `cst8911-g6-rg`, in West US 2.
 
