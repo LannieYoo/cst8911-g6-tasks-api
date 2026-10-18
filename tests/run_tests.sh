@@ -89,4 +89,18 @@ curl -s -i -X PUT "$BASE/api/tasks/not-a-real-id" \
   -d '{"status": "done"}'
 echo
 
-# DELETE is added here when it is merged.
+# DELETE
+
+echo "=== DELETE /api/tasks/{id} (expect 204) ==="
+curl -s -i -X DELETE "$BASE/api/tasks/$TASK_ID" -H "x-functions-key: $KEY"
+echo
+echo
+
+echo "=== GET the deleted task (expect 404) ==="
+curl -s -i "$BASE/api/tasks/$TASK_ID" -H "x-functions-key: $KEY"
+echo
+echo
+
+echo "=== DELETE /api/tasks/not-a-real-id (expect 404) ==="
+curl -s -i -X DELETE "$BASE/api/tasks/not-a-real-id" -H "x-functions-key: $KEY"
+echo
