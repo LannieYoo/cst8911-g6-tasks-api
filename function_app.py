@@ -6,3 +6,6 @@ app = func.FunctionApp()
 
 # One blueprint per team member. Add one line here for each new function file.
 app.register_functions(create_task_bp)
+
+app.register_functions(get_task_bp)
+app.register_functions(update_task_bp)

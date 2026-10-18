@@ -29,4 +29,49 @@ curl -s -i -X POST "$BASE/api/tasks" \
 echo
 echo
 
-# GET list, GET one, PUT and DELETE are added here when those functions are merged.
+# GET one
+echo "=== Create a task for GET/PUT tests ==="
+RESPONSE=$(curl -s -X POST "$BASE/api/tasks" \
+  -H "x-functions-key: $KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"title": "Task for GET/PUT", "owner": "Tao"}')
+TASK_ID=$(echo "$RESPONSE" | python3 -c "import sys, json; print(json.load(sys.stdin)['id'])")
+echo "Created $TASK_ID"
+echo
+
+echo "=== GET /api/tasks/{id} (expect 200) ==="
+curl -s -i "$BASE/api/tasks/$TASK_ID" -H "x-functions-key: $KEY"
+echo
+echo
+
+echo "=== GET /api/tasks/not-a-real-id (expect 404) ==="
+curl -s -i "$BASE/api/tasks/not-a-real-id" -H "x-functions-key: $KEY"
+echo
+echo
+
+# PUT One
+
+echo "=== PUT /api/tasks/{id} valid status (expect 200) ==="
+curl -s -i -X PUT "$BASE/api/tasks/$TASK_ID" \
+  -H "x-functions-key: $KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"status": "doing"}'
+echo
+echo
+
+echo "=== PUT /api/tasks/{id} invalid status (expect 400) ==="
+curl -s -i -X PUT "$BASE/api/tasks/$TASK_ID" \
+  -H "x-functions-key: $KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"status": "finished"}'
+echo
+echo
+
+echo "=== PUT /api/tasks/not-a-real-id (expect 404) ==="
+curl -s -i -X PUT "$BASE/api/tasks/not-a-real-id" \
+  -H "x-functions-key: $KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"status": "done"}'
+echo
+
+# GET list, DELETE are added here when those functions are merged.
