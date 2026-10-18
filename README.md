@@ -119,7 +119,8 @@ Do not write a key in any file or commit.
 
 | Name | Work |
 |---|---|
-| Hye Ran Yoo | Azure setup (all resources, managed identities, Key Vault, VM), POST function, repository and deployment, VM tests, report |
-| Tao Lu | GET one and PUT functions, tests for them |
-| Peng Wang | GET list function |
-| David Yin | DELETE function |
+| Hye Ran Yoo | Azure resources, managed identities and roles, Key Vault, VM, POST function, GitHub deployment, tests from the VM |
+| Tao Lu | GET one and PUT functions, curl test script, architecture diagram |
+| Peng Wang | GET list function, README |
+| David Yin | DELETE function, final check of the report against the instructions |
+| All members | Report |
