@@ -77,6 +77,8 @@ host.json
 
 All resources have the same five tags: `project`, `group`, `owner`, `env`, `cost-center`.
 
+All Azure resources were deleted after the final test, so the endpoints in this README no longer respond.
+
 ## Settings used by the Function App
 
 | Name | Value |
@@ -86,7 +88,8 @@ All resources have the same five tags: `project`, `group`, `owner`, `env`, `cost
 | `COSMOS_CONTAINER` | `tasks` |
 
 There is no Cosmos DB key in the settings. The Function App identity has the
-Cosmos DB Built-in Data Contributor role on the `tasks` container only.
+Cosmos DB Built-in Data Contributor role on the `tasks` container only. Key-based access
+to Cosmos DB is turned off.
 
 ## Deployment
 
@@ -113,7 +116,7 @@ Do not write a key in any file or commit.
 1. Make a branch from the latest `main`, for example `git checkout -b feature/delete-task`.
 2. Add one file in `functions/`. Create `bp = func.Blueprint()` and use `get_container()` from `shared/cosmos.py`.
 3. In `function_app.py`, add the import line and the `app.register_functions(...)` line.
-4. Push the branch and open a pull request. Hye Ran reviews and merges it, and GitHub Actions deploys it.
+4. Push the branch and open a pull request. When it is merged into `main`, GitHub Actions deploys it.
 
 ## Team
 
